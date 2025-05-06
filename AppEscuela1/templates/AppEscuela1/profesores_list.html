@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Estudiantes</title>
+    <title>Lista de Profesores</title>
     <style>
         body {
             font-family: 'Bahnschrift', sans-serif;
@@ -39,12 +39,12 @@
         }
     </style>
 </head>
-<body>
-    <h1>Lista de Estudiantes</h1>
-    <ul>
-        {% for estudiante in estudiantes %}
-        <li>{{ estudiante.nombre }} {{ estudiante.apellido }}</li>
-        {% endfor %}
-    </ul>
-</body>
+    <body>
+        <h1>Lista de Profesores</h1>
+        <ul>
+            {% for profesor in profesores %}
+            <li>{{ profesor.nombre }} {{ profesor.apellido }} - {{ profesor.profesion }}</li>
+            {% endfor %}
+        </ul>
+    </body>
 </html>
