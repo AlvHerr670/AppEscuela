@@ -1,50 +1,15 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista de Profesores</title>
-    <style>
-        body {
-            font-family: 'Bahnschrift', sans-serif;
-            background-color: #121212;
-            color: #e0e0e0;
-            margin: 0;
-            padding: 20px;
-        }
+{% extends "AppEscuela1/base.html" %}
 
-        h1 {
-            text-align: center;
-            color: #e0e0e0;
-        }
+{% block title %}Lista de Profesores{% endblock %}
 
-        ul {
-            list-style: none;
-            padding: 0;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        li {
-            background-color: #6c2586;
-            margin-bottom: 10px;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.2s ease;
-        }
-
-        li:hover {
-            background-color: #9c2dc4;
-            transform: scale(1.02);
-        }
-    </style>
-</head>
-    <body>
-        <h1>Lista de Profesores</h1>
-        <ul>
-            {% for profesor in profesores %}
-            <li>{{ profesor.nombre }} {{ profesor.apellido }} - {{ profesor.profesion }}</li>
-            {% endfor %}
-        </ul>
-    </body>
-</html>
+{% block content %}
+    <h1>Lista de Profesores</h1>
+    <p>Selecciona un profesor para ver sus detalles:</p>
+    <ul class="page-links">
+        {% for profesor in profesores %}
+            <li><a href="#">{{ profesor.nombre }} {{ profesor.apellido }} - {{profesor.profesion}}</a></li>
+        {% empty %}
+            <li><a href="#">No hay profesores registrados</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

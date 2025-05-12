@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AppEscuela{% endblock %}</title>
+    <style>
+        body {
+            font-family: 'Bahnschrift', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            background-color: #1f1f1f;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            background-color: transparent;
+            color: #dddddd;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #6c2586;
+            color: #ffffff;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ffffff;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #bbbbbb;
+        }
+
+        ul.page-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul.page-links li {
+            margin: 12px 0;
+        }
+
+        ul.page-links li a {
+            width: 200px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #6c2586;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s;
+            display: inline-block;
+        }
+
+        ul.page-links li a:hover {
+            background-color: #9c2dc4;
+            transform: scale(1.09);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">AppEscuela</div>
+        <ul>
+            <li><a href="{% url 'AppEscuela1:index' %}">Inicio</a></li>
+            <li><a href="{% url 'AppEscuela1:lista_estudiantes' %}">Estudiantes</a></li>
+            <li><a href="{% url 'AppEscuela1:lista_profesores' %}">Profesores</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        {% block content %}
+        <!-- Contenido personalizado de cada página -->
+        {% endblock %}
+    </main>
+</body>
+</html>
