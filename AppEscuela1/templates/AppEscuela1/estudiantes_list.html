@@ -4,10 +4,31 @@
 
 {% block content %}
     <h1>Lista de Estudiantes</h1>
-    <p>Selecciona un estudiante para ver sus detalles:</p>
+    
+    <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+    <form method="get" style="display: flex; gap: 0.5rem;">
+        <input type="text" name="q" placeholder="Buscar por nombre..." 
+               style="padding: 10px; border-radius: 8px; border: none; background-color: #1f1f1f; color: white; width: 220px;">
+        <button type="submit" 
+                style="background-color: #6c2586; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; transition: background-color 0.3s;">
+            Buscar
+        </button>
+    </form>
+
+    <a href="{% url 'AppEscuela1:crear_estudiante' %}" 
+       style="background-color: #6c2586; color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none; display: flex; align-items: center; transition: background-color 0.3s;">
+        Inscribir Nuevo
+    </a>
+    </div>
+
+    <p>Selecciona un Estudiante para ver sus detalles:</p>
     <ul class="page-links">
         {% for estudiante in estudiantes %}
-            <li><a href="#">{{ estudiante.nombre }} {{ estudiante.apellido }}</a></li>
+            <li>
+                <a href="{% url 'AppEscuela1:detalle_estudiante' estudiante.pk %}">
+                {{ estudiante.nombre }} {{ estudiante.apellido }}
+            </a>
+        </li>
         {% empty %}
             <li><a href="#">No hay estudiantes registrados</a></li>
         {% endfor %}

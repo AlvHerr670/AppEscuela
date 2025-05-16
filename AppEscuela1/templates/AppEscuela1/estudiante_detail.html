@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Detalles del Estudiante</title>
-</head>
-<body>
+{% extends "AppEscuela1/base.html" %}
+
+{% block title %}Detalle del Estudiante{% endblock %}
+
+{% block content %}
     <h1>{{ estudiante.nombre }} {{ estudiante.apellido }}</h1>
-    <p>Email: {{ estudiante.email }}</p>
-</body>
-</html>
+    <p><strong>Email:</strong> {{ estudiante.email }}</p>
+    <p><strong>Fecha de Inscripción:</strong> {{ estudiante.fecha_inscripcion }}</p>
+    <a href="{% url 'AppEscuela1:lista_estudiantes' %}">← Volver a la lista</a>
+{% endblock %}

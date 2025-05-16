@@ -98,6 +98,27 @@
             background-color: #9c2dc4;
             transform: scale(1.09);
         }
+
+
+        form input, form textarea, form select {
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+            border: 1px solid #555;
+            border-radius: 6px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        form input::placeholder, form textarea::placeholder {
+            color: #bbb;
+        }
+        form input:focus, form textarea:focus, form select:focus {
+            outline: none;
+            border-color: #6c2586;
+            box-shadow: 0 0 6px #6c2586;
+            background-color: #3a3a3a;
+        }
+        
     </style>
 </head>
 <body>
@@ -107,6 +128,8 @@
             <li><a href="{% url 'AppEscuela1:index' %}">Inicio</a></li>
             <li><a href="{% url 'AppEscuela1:lista_estudiantes' %}">Estudiantes</a></li>
             <li><a href="{% url 'AppEscuela1:lista_profesores' %}">Profesores</a></li>
+            <li><a href="{% url 'AppEscuela1:lista_cursos' %}">Cursos</a></li>
+            <li><a href="{% url 'AppEscuela1:lista_entregables' %}">Entregables</a></li>
         </ul>
     </nav>
 

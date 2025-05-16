@@ -1,9 +1,10 @@
 {% extends "AppEscuela1/base.html" %}
 
-{% block title %}Lista de Profesores{% endblock %}
+{% block title %}Lista de Cursos{% endblock %}
 
 {% block content %}
-    <h1>Lista de Profesores</h1>
+    
+    <h1>Lista de Cursos</h1>
 
     <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
     <form method="get" style="display: flex; gap: 0.5rem;">
@@ -15,23 +16,23 @@
         </button>
     </form>
 
-    <a href="{% url 'AppEscuela1:crear_profesor' %}" 
+    <a href="{% url 'AppEscuela1:crear_curso' %}" 
        style="background-color: #6c2586; color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none; display: flex; align-items: center; transition: background-color 0.3s;">
         Inscribir Nuevo
     </a>
     </div>
 
 
-    <p>Selecciona un Profesor para ver sus detalles:</p>
+    <p>Selecciona un Curso para ver sus detalles:</p>
     <ul class="page-links">
-        {% for profesor in profesores %}
+        {% for curso in cursos %}
             <li>
-                <a href="{% url 'AppEscuela1:detalle_profesores' profesor.pk %}">
-                {{ profesor.nombre }} {{ profesor.apellido }}
+                <a href="{% url 'AppEscuela1:detalle_cursos' curso.pk %}">
+                {{ curso.nombre }}
             </a>
         </li>
         {% empty %}
-            <li><a href="#">No hay profesores registrados</a></li>
+            <li><a href="#">No hay cursos registrados</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

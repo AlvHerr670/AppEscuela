@@ -1,0 +1,11 @@
+{% extends "AppEscuela1/base.html" %}
+
+{% block title %}Detalle del Curso{% endblock %}
+
+{% block content %}
+    <h1>{{ curso.nombre }}</h1>
+    <p><strong>Camada:</strong> {{ curso.camada }}</p>
+    <p><strong>Profesor a Cargo:</strong> {{ curso.profesor }}</p>
+    <p><strong>Fecha de Creación:</strong> {{ curso.fecha_creacion }}</p>
+    <a href="{% url 'AppEscuela1:lista_cursos' %}">← Volver a la lista</a>
+{% endblock %}

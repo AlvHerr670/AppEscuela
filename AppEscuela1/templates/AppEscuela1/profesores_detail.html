@@ -1,0 +1,10 @@
+{% extends "AppEscuela1/base.html" %}
+
+{% block title %}Detalle del Profesor{% endblock %}
+
+{% block content %}
+    <h1>{{ profesor.nombre }} {{ profesor.apellido }}</h1>
+    <p><strong>Email:</strong> {{ profesor.email }}</p>
+    <p><strong>Fecha de Inscripción:</strong> {{ profesor.fecha_inscripcion }}</p>
+    <a href="{% url 'AppEscuela1:lista_profesores' %}">← Volver a la lista</a>
+{% endblock %}
