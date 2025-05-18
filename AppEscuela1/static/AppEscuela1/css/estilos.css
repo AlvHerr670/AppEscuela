@@ -1,0 +1,39 @@
+/* Fuente y colores ya definidos en base.html */
+body {
+    font-family: 'Bahnschrift', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+/* Estilo general de botones */
+.btn {
+    background-color: #6c2586;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: inherit;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Hover para todos los botones */
+.btn:hover {
+    background-color: #9c2dc4;
+}
+
+/* Input de búsqueda */
+.input-busqueda {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: #1f1f1f;
+    color: white;
+    width: 220px;
+    font-family: inherit;
+}

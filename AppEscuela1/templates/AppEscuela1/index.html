@@ -1,8 +1,10 @@
 {% extends "AppEscuela1/base.html" %}
+{% load static %}
 
 {% block title %}Inicio - AppEscuela{% endblock %}
 
 {% block content %}
+    <img src="{% static 'AppEscuela1/img/logo.png' %}" alt="Logo AppEscuela" class="logo-home">
     <h1>Inicio</h1>
     <p>Selecciona un enlace para continuar:</p>
     <ul class="page-links">

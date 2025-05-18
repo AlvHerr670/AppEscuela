@@ -69,15 +69,15 @@ def detalle_cursos(request, pk):
 def lista_entregable(request):
     query = request.GET.get('q')
     if query:
-        entregable = Entregable.objects.filter(
+        entregables = Entregable.objects.filter(
             Q(nombre__icontains=query) |
-            Q(curso__icontains=query)
+            Q(curso__nombre__icontains=query)
         )
     else:
-        entregable = Entregable.objects.all()
+        entregables = Entregable.objects.all()
 
     contexto = {
-        'entregable': entregable,
+        'entregables': entregables,
         'query': query,
     }
     return render(request, 'AppEscuela1/entregable_list.html', contexto)

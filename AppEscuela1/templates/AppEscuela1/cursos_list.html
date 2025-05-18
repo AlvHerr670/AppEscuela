@@ -6,22 +6,16 @@
     
     <h1>Lista de Cursos</h1>
 
-    <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
-    <form method="get" style="display: flex; gap: 0.5rem;">
-        <input type="text" name="q" placeholder="Buscar por nombre..." 
-               style="padding: 10px; border-radius: 8px; border: none; background-color: #1f1f1f; color: white; width: 220px;">
-        <button type="submit" 
-                style="background-color: #6c2586; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; transition: background-color 0.3s;">
-            Buscar
-        </button>
-    </form>
+     <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+        <form method="get" style="display: flex; gap: 0.5rem;">
+            <input type="text" name="q" placeholder="Buscar por nombre..." class="input-busqueda">
+            <button type="submit" class="btn">Buscar</button>
+        </form>
 
-    <a href="{% url 'AppEscuela1:crear_curso' %}" 
-       style="background-color: #6c2586; color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none; display: flex; align-items: center; transition: background-color 0.3s;">
-        Inscribir Nuevo
-    </a>
+        <a href="{% url 'AppEscuela1:crear_curso' %}" class="btn">
+            Inscribir Nuevo
+        </a>
     </div>
-
 
     <p>Selecciona un Curso para ver sus detalles:</p>
     <ul class="page-links">

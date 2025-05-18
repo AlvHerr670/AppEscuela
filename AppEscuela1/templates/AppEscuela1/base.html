@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}AppEscuela{% endblock %}</title>
@@ -118,12 +119,38 @@
             box-shadow: 0 0 6px #6c2586;
             background-color: #3a3a3a;
         }
+        .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: white;
+        text-decoration: none;
+        }
+
+        .logo-img {
+        height: 40px;
+        width: auto;
+        display: block;
+        }
         
+        .logo-home {
+            height: 300px;
+            margin-bottom: 1.5rem;
+        }
+
     </style>
+    
+    <link rel="stylesheet" href="{% static 'AppEscuela1/css/estilos.css' %}">
+
 </head>
 <body>
     <nav>
-        <div class="logo">AppEscuela</div>
+        <a href="{% url 'AppEscuela1:index' %}" class="logo">
+        <img src="{% static 'AppEscuela1/img/logo.png' %}" alt="Logo AppEscuela" class="logo-img">
+        AppEscuela
+        </a>
         <ul>
             <li><a href="{% url 'AppEscuela1:index' %}">Inicio</a></li>
             <li><a href="{% url 'AppEscuela1:lista_estudiantes' %}">Estudiantes</a></li>
