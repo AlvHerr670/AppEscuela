@@ -1,12 +1,18 @@
-{% extends "AppEscuela1/base.html" %}
+{% extends "AppEscuela1/detalle_base.html" %}
 
 {% block title %}Detalle del Curso{% endblock %}
 
-{% block content %}
-    <h1>{{ curso.nombre }}</h1>
-    <p><strong>Camada:</strong> {{ curso.camada }}</p>
-    <p><strong>Profesor a Cargo:</strong> {{ curso.profesor }}</p>
-    <p><strong>Fecha de Creación:</strong> {{ curso.fecha_creacion }}</p>
-    
-    <a href="{% url 'AppEscuela1:lista_cursos' %}" class="btn">← Volver a la lista</a>
+{% block detalle_contenido %}
+    <h1 style="text-align: center; font-size: 1.8rem; margin-bottom: 1.5rem;">
+        {{ curso.nombre }}</h1>
+    <p><strong style="color: #c78df0;">Camada:</strong> {{ curso.camada }}</p>
+    <p><strong style="color: #c78df0;">Profesor a Cargo:</strong> {{ curso.profesor }}</p>
+    <p><strong style="color: #c78df0;">Fecha de Creación:</strong> {{ curso.fecha_creacion }}</p>
+
 {% endblock %}
+
+{% block volver_url %}
+    {% url 'AppEscuela1:lista_cursos' %}
+{% endblock %}
+
+

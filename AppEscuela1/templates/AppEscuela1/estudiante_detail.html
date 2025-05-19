@@ -1,11 +1,18 @@
-{% extends "AppEscuela1/base.html" %}
+{% extends "AppEscuela1/detalle_base.html" %}
 
 {% block title %}Detalle del Estudiante{% endblock %}
 
-{% block content %}
-    <h1>{{ estudiante.nombre }} {{ estudiante.apellido }}</h1>
-    <p><strong>Email:</strong> {{ estudiante.email }}</p>
-    <p><strong>Fecha de Inscripción:</strong> {{ estudiante.fecha_inscripcion }}</p>
+{% block detalle_contenido %}
 
-    <a href="{% url 'AppEscuela1:lista_estudiantes' %}" class="btn">← Volver a la lista</a>
+    <h1 style="text-align: center; font-size: 1.8rem; margin-bottom: 1.5rem;"> 
+        {{ estudiante.nombre }} {{ estudiante.apellido }}</h1>
+
+    <p><strong style="color: #c78df0;">Email:</strong> {{ estudiante.email }}</p>
+    <p><strong style="color: #c78df0;">Fecha de Inscripción:</strong> {{ estudiante.fecha_inscripcion }}</p>
+
 {% endblock %}
+
+{% block volver_url %}
+    {% url 'AppEscuela1:lista_estudiantes' %}
+{% endblock %}
+

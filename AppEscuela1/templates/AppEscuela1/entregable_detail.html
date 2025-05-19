@@ -1,11 +1,17 @@
-{% extends "AppEscuela1/base.html" %}
+{% extends "AppEscuela1/detalle_base.html" %}
 
 {% block title %}Detalle del Entregable{% endblock %}
 
-{% block content %}
-    <h1>{{ entregable.nombre }} - {{ entregable.curso }}</h1>
-    <p><strong>Descripción:</strong> {{ entregable.descripcion }}</p>
-    <p><strong>Fecha de Entrega:</strong> {{ entregable.fecha_entrega }}</p>
-    
-    <a href="{% url 'AppEscuela1:lista_entregables' %}" class="btn">← Volver a la lista</a>
+{% block detalle_contenido %}
+    <h1 style="text-align: center; font-size: 1.8rem; margin-bottom: 1.5rem;">
+        {{ entregable.nombre }}
+    </h1>
+
+    <p><strong style="color: #c78df0;">Curso:</strong> {{ entregable.curso }}</p>
+    <p><strong style="color: #c78df0;">Descripción:</strong> {{ entregable.descripcion }}</p>
+    <p><strong style="color: #c78df0;">Fecha de Entrega:</strong> {{ entregable.fecha_entrega }}</p>
+{% endblock %}
+
+{% block volver_url %}
+    {% url 'AppEscuela1:lista_entregables' %}
 {% endblock %}

@@ -1,9 +1,9 @@
 from django.db import models
 
 class Estudiante(models.Model):
-    nombre = models.CharField(max_length=100)
-    apellido = models.CharField(max_length=100)
-    email = models.EmailField()
+    nombre = models.CharField(max_length=100, blank=False)
+    apellido = models.CharField(max_length=100, blank=False)
+    email = models.EmailField(unique=True, blank=False)
     fecha_inscripcion = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
