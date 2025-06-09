@@ -1,0 +1,38 @@
+{% extends "AppEscuela1/base.html" %}
+
+{% block title %}Perfil de Usuario{% endblock %}
+
+{% block content %}
+  <div style="background-color: #1f1f1f; padding: 2rem; border-radius: 12px; width: 100%; max-width: 500px; margin: 0 auto; box-shadow: 0 0 12px rgba(0, 0, 0, 0.4); text-align: center;">
+    <h1 style="margin-bottom: 1rem;">Perfil de {{ usuario.username }}</h1>
+    
+    {% if avatar.imagen %}
+      <img src="{{ avatar.imagen.url }}" alt="Avatar" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem;">
+    {% else %}
+      <p style="color: #aaa;">Sin avatar cargado</p>
+    {% endif %}
+    
+    <p><strong style="color: #c78df0;">Email:</strong> {{ usuario.email }}</p>
+    
+    <a href="{% url 'AppEscuela1:editar_perfil' %}" style="display: inline-block; margin-top: 1.5rem; background-color: #6c2586; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none;">
+      Editar Perfil
+    </a>
+
+    <form method="post" action="{% url 'AppEscuela1:logout_usuario' %}" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" style="
+            font-family: 'Bahnschrift';
+            font-size: 15px;
+            background-color: #ff4d4d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        ">
+            Cerrar sesión
+        </button>
+    </form>
+
+  </div>
+{% endblock %}

@@ -4,5 +4,12 @@
 
 {% block content %}
   <h1 style="margin-bottom: 1rem; text-align: center;">Iniciar Sesión</h1>
-  {% include "AppEscuela1/form_common.html" %}
+  {% include "AppEscuela1/form_common.html" with submit_label="Ingresar" %}
+
+  {% if form.errors %}
+  <div style="color: #ff7373; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+    <strong>Error:</strong> Usuario o Contraseña incorrectos.
+  </div>
+  {% endif %}
+
 {% endblock %}

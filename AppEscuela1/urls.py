@@ -1,3 +1,6 @@
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth.views import LogoutView
 from django.urls import path
 from .views import *
 
@@ -19,5 +22,8 @@ urlpatterns = [
     path('profesores/nuevo/', crear_profesor, name='crear_profesor'),
     path('cursos/nuevo/', crear_curso, name='crear_curso'),
     path('entregables/nuevo/', crear_entregable, name='crear_entregable'),
-    
+    path('perfil', perfil, name='perfil'),
+    path('editar_perfil', editar_perfil, name='editar_perfil'),
+    path('logout/', logout_usuario, name='logout_usuario'),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

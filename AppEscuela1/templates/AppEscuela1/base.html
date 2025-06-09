@@ -155,6 +155,41 @@
             height: 300px;
             margin-bottom: 1.5rem;
         }
+        
+        #sidebar form.logout-form {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        }
+
+        #sidebar form.logout-form button {
+        font-family: 'Bahnschrift';
+        background: none;
+        border: none;
+        border-radius: 6px;
+        color: #dddddd;
+        font-size: 18px;
+        padding: 8px 16px;
+        text-align: center;
+        width: 100%;
+        cursor: pointer;
+        text-decoration: none;
+        display: block;
+        transition: background-color 0.3s, color 0.3s;
+        }
+
+        #sidebar form.logout-form button:hover {
+        background-color: #cb4e4e;
+        color: #ffffff;
+        }
+
+        .avatar-mini {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+        }
 
     </style>
     
@@ -166,8 +201,20 @@
         <button onclick="openSidebar()" style="font-size: 24px; background: none; border: none; color: #fff; cursor: pointer; margin-right: 1rem;">☰</button>
 
         <ul>
+            {% if not user.is_authenticated %}
             <li><a href="{% url 'AppEscuela1:login_usuario' %}">Iniciar Sesión</a></li>
             <li><a href="{% url 'AppEscuela1:registrar_usuario' %}">Registrarse</a></li>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <li style="display: flex; align-items: center; gap: 8px;">
+                {% if user.avatar.imagen %}
+                    <img src="{{ user.avatar.imagen.url }}" alt="" class="avatar-mini">
+                {% endif %}
+                <a href="{% url 'AppEscuela1:perfil' %}" style="color: #ddd; text-decoration: none;">
+                    {{ user.username }}
+                </a>
+            </li>
+            {% endif %}
         </ul>
     </nav>
 
@@ -182,6 +229,12 @@
         <a href="{% url 'AppEscuela1:lista_profesores' %}" class="sidebar-link">Profesores</a>
         <a href="{% url 'AppEscuela1:lista_cursos' %}" class="sidebar-link">Cursos</a>
         <a href="{% url 'AppEscuela1:lista_entregables' %}" class="sidebar-link">Entregables</a>
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'AppEscuela1:logout_usuario' %}" class="logout-form">
+            {% csrf_token %}
+            <button type="submit">Cerrar sesión</button>
+        </form>
+        {% endif %}
     </div>
 
     <main>

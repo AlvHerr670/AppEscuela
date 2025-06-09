@@ -1,27 +1,27 @@
-<form method="post" style="background-color: #1f1f1f; padding: 2rem; border-radius: 12px; width: 100%; max-width: 500px; box-shadow: 0 0 12px rgba(0, 0, 0, 0.4); margin: 0 auto;">
+<form method="post" enctype="multipart/form-data" style="background-color: #1f1f1f; padding: 2rem; border-radius: 12px; width: 100%; max-width: 500px; box-shadow: 0 0 12px rgba(0, 0, 0, 0.4); margin: 0 auto;">
   {% csrf_token %}
 
   {% for field in form %}
     <div style="margin-bottom: 1.2rem; text-align: center;">
-      <label for="{{ field.id_for_label }}" style="
-        display: block;
-        text-align: center;
-        margin-bottom: 0.4rem;
-        font-weight: bold;
-        color: #e0e0e0;">
-        {{ field.label }}
-      </label>
+      <label for="{{ field.id_for_label }}" style="display: block; margin-bottom: 0.4rem; font-weight: bold; color: #e0e0e0;">{{ field.label }}</label>
       {{ field }}
       {% if field.errors %}
         <div style="color: #ff7373; font-size: 0.9rem;">{{ field.errors }}</div>
       {% endif %}
-      {% if form.non_field_errors %}
-        <div style="color: #ff7373; font-size: 0.95rem; text-align: center; margin-bottom: 1rem;">
-          {{ form.non_field_errors }}
-        </div>
-      {% endif %}      
     </div>
   {% endfor %}
+
+  {% if avatar_form %}
+    {% for field in avatar_form %}
+      <div style="margin-bottom: 1.2rem; text-align: center;">
+        <label for="{{ field.id_for_label }}" style="display: block; margin-bottom: 0.4rem; font-weight: bold; color: #e0e0e0;">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+          <div style="color: #ff7373; font-size: 0.9rem;">{{ field.errors }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% endif %}
 
   <button type="submit" style="
       font-family: 'Bahnschrift', Tahoma, Geneva, Verdana, sans-serif;
@@ -35,6 +35,7 @@
       transition: background-color 0.3s ease;
       display: block;
       margin: 0 auto;">
-    Guardar
+      {{ submit_label|default:"Guardar" }}
   </button>
 </form>
+
