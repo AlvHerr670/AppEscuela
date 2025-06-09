@@ -5,6 +5,8 @@ app_name = 'AppEscuela1'
 
 urlpatterns = [
     path("", index, name="index"),
+    path('login/', login_usuario, name='login_usuario'),
+    path('registrar/', registro_usuario, name='registrar_usuario'),
     path('estudiantes/', lista_estudiantes, name='lista_estudiantes'),
     path('estudiantes/<int:pk>/', detalle_estudiante, name='detalle_estudiante'),
     path('profesores/', lista_profesores, name='lista_profesores'),

@@ -1,10 +1,33 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
+from django.contrib.auth import authenticate, login
 from .models import Estudiante, Profesor, Curso, Entregable
-from .forms import EstudianteForm, ProfesorForm, CursoForm, EntregableForm
+from .forms import EstudianteForm, ProfesorForm, CursoForm, EntregableForm, LoginForm, RegistroForm
 
 def index(request):
     return render(request, 'AppEscuela1/index.html')
+
+def login_usuario(request):
+    form = LoginForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        user = authenticate(
+            request,
+            username=form.cleaned_data['username'],
+            password=form.cleaned_data['password']
+        )
+        if user is not None:
+            login(request, user)
+            return redirect('AppEscuela1:index')
+        else:
+            form.add_error(None, "Usuario o contraseña incorrectos")
+    return render(request, 'AppEscuela1/login.html', {'form': form})
+
+def registro_usuario(request):
+    form = RegistroForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('login')
+    return render(request, 'AppEscuela1/registrar.html', {'form': form})
 
 def lista_estudiantes(request):
     query = request.GET.get('q')

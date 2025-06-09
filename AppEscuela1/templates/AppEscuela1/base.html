@@ -100,6 +100,22 @@
             transform: scale(1.09);
         }
 
+        .sidebar-link {
+            padding: 8px 16px;
+            text-decoration: none;
+            font-size: 18px;
+            background-color: transparent;
+            color: #dddddd;
+            border-radius: 6px;
+            display: block;
+            transition: background-color 0.3s, color 0.3s;
+            text-align: center;
+        }
+
+        .sidebar-link:hover {
+            background-color: #6c2586;
+            color: #ffffff;
+        }
 
         form input, form textarea, form select {
             background-color: #2a2a2a;
@@ -147,23 +163,42 @@
 </head>
 <body>
     <nav>
-        <a href="{% url 'AppEscuela1:index' %}" class="logo">
-        <img src="{% static 'AppEscuela1/img/logo.png' %}" alt="Logo AppEscuela" class="logo-img">
-        AppEscuela
-        </a>
+        <button onclick="openSidebar()" style="font-size: 24px; background: none; border: none; color: #fff; cursor: pointer; margin-right: 1rem;">☰</button>
+
         <ul>
-            <li><a href="{% url 'AppEscuela1:index' %}">Inicio</a></li>
-            <li><a href="{% url 'AppEscuela1:lista_estudiantes' %}">Estudiantes</a></li>
-            <li><a href="{% url 'AppEscuela1:lista_profesores' %}">Profesores</a></li>
-            <li><a href="{% url 'AppEscuela1:lista_cursos' %}">Cursos</a></li>
-            <li><a href="{% url 'AppEscuela1:lista_entregables' %}">Entregables</a></li>
+            <li><a href="{% url 'AppEscuela1:login_usuario' %}">Iniciar Sesión</a></li>
+            <li><a href="{% url 'AppEscuela1:registrar_usuario' %}">Registrarse</a></li>
         </ul>
     </nav>
 
+    <div id="sidebar" style="height: 100%; width: 0; position: fixed; z-index: 1000; top: 0; left: 0; background-color: #1f1f1f; overflow-x: hidden; transition: 0.3s; padding-top: 60px;">
+        <a href="javascript:void(0)" onclick="closeSidebar()" style="position: absolute; top: 20px; right: 25px; font-size: 36px; text-decoration: none; color: white;">&times;</a>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <img src="{% static 'AppEscuela1/img/logo.png' %}" alt="Logo AppEscuela" style="width: 100px; height: auto;">
+            <div style="margin-top: 10px; font-size: 20px; font-weight: bold; color: white;">AppEscuela</div>
+        </div>
+        <a href="{% url 'AppEscuela1:index' %}" class="sidebar-link">Inicio</a>
+        <a href="{% url 'AppEscuela1:lista_estudiantes' %}" class="sidebar-link">Estudiantes</a>
+        <a href="{% url 'AppEscuela1:lista_profesores' %}" class="sidebar-link">Profesores</a>
+        <a href="{% url 'AppEscuela1:lista_cursos' %}" class="sidebar-link">Cursos</a>
+        <a href="{% url 'AppEscuela1:lista_entregables' %}" class="sidebar-link">Entregables</a>
+    </div>
+
     <main>
         {% block content %}
-        <!-- Contenido personalizado de cada página -->
+
         {% endblock %}
     </main>
+
+    <script>
+    function openSidebar() {
+        document.getElementById("sidebar").style.width = "250px";
+    }
+
+    function closeSidebar() {
+        document.getElementById("sidebar").style.width = "0";
+    }
+    </script>
+
 </body>
 </html>
