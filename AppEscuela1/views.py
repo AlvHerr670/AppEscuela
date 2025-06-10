@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
+from django.views.generic import ListView
+from django.views.generic.edit import CreateView
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
@@ -9,6 +12,9 @@ from .forms import EstudianteForm, ProfesorForm, CursoForm, EntregableForm, Logi
 
 def index(request):
     return render(request, 'AppEscuela1/index.html')
+
+def about(request):
+    return render(request, 'AppEscuela1/about.html')
 
 # Creación/Login Usuarios
 
@@ -50,83 +56,75 @@ def perfil(request):
 
 # Listas y Detalles
 
-def lista_estudiantes(request):
-    query = request.GET.get('q')
-    if query:
-        estudiantes = Estudiante.objects.filter(
-            Q(nombre__icontains=query) |
-            Q(apellido__icontains=query)
-        )
-    else:
-        estudiantes = Estudiante.objects.all()
+class lista_estudiantes(ListView):
+    model = Estudiante
+    template_name = 'AppEscuela1/estudiantes_list.html'
+    context_object_name = 'estudiantes'
 
-    contexto = {
-        'estudiantes': estudiantes,
-        'query': query,
-    }
-    return render(request, 'AppEscuela1/estudiantes_list.html', contexto)
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Estudiante.objects.filter(
+                Q(nombre__icontains=query) |
+                Q(apellido__icontains=query)
+            )
+        return Estudiante.objects.all()
 
 @login_required(login_url='AppEscuela1:login_usuario')
 def detalle_estudiante(request, pk):
     estudiante = get_object_or_404(Estudiante, pk=pk)
     return render(request, 'AppEscuela1/estudiante_detail.html', {'estudiante': estudiante})
 
-def lista_profesores(request):
-    query = request.GET.get('q')
-    if query:
-        profesores = Profesor.objects.filter(
-            Q(nombre__icontains=query) |
-            Q(apellido__icontains=query)
-        )
-    else:
-        profesores = Profesor.objects.all()
+class lista_profesores(ListView):
+    model = Profesor
+    template_name = 'AppEscuela1/profesores_list.html'
+    context_object_name = 'profesores'
 
-    contexto = {
-        'profesores': profesores,
-        'query': query,
-    }
-    return render(request, 'AppEscuela1/profesores_list.html', contexto)
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Profesor.objects.filter(
+                Q(nombre__icontains=query) |
+                Q(apellido__icontains=query)
+            )
+        return Profesor.objects.all()
 
 @login_required(login_url='AppEscuela1:login_usuario')
 def detalle_profesores(request, pk):
     profesor = get_object_or_404(Profesor, pk=pk)
     return render(request, 'AppEscuela1/profesores_detail.html', {'profesor': profesor})
 
-def lista_cursos(request):
-    query = request.GET.get('q')
-    if query:
-        cursos = Curso.objects.filter(
-            Q(nombre__icontains=query)
-        )
-    else:
-        cursos = Curso.objects.all()
+class lista_cursos(ListView):
+    model = Curso
+    template_name = 'AppEscuela1/cursos_list.html'
+    context_object_name = 'cursos'
 
-    contexto = {
-        'cursos': cursos,
-        'query': query,
-    }
-    return render(request, 'AppEscuela1/cursos_list.html', contexto)
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Curso.objects.filter(
+                Q(nombre__icontains=query)
+            )
+        return Curso.objects.all()
 
 @login_required(login_url='AppEscuela1:login_usuario')
 def detalle_cursos(request, pk):
     curso = get_object_or_404(Curso, pk=pk)
     return render(request, 'AppEscuela1/cursos_detail.html', {'curso': curso})
 
-def lista_entregable(request):
-    query = request.GET.get('q')
-    if query:
-        entregables = Entregable.objects.filter(
-            Q(nombre__icontains=query) |
-            Q(curso__nombre__icontains=query)
-        )
-    else:
-        entregables = Entregable.objects.all()
+class lista_entregable(ListView):
+    model = Entregable
+    template_name = 'AppEscuela1/entregable_list.html'
+    context_object_name = 'entregables'
 
-    contexto = {
-        'entregables': entregables,
-        'query': query,
-    }
-    return render(request, 'AppEscuela1/entregable_list.html', contexto)
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Entregable.objects.filter(
+                Q(nombre__icontains=query) |
+                Q(curso__nombre__icontains=query)
+            )
+        return Entregable.objects.all()
 
 @login_required(login_url='AppEscuela1:login_usuario')
 def detalle_entregable(request, pk):
@@ -135,52 +133,37 @@ def detalle_entregable(request, pk):
 
 # Creación de Elementos
 
-@login_required(login_url='AppEscuela1:login_usuario')
-def crear_estudiante(request):
-    if request.method == 'POST':
-        form = EstudianteForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('AppEscuela1:lista_estudiantes')
-    else:
-        form = EstudianteForm()
-    return render(request, 'AppEscuela1/estudiante_form.html', {'form': form})
+class crear_estudiante(LoginRequiredMixin, CreateView):
+    model = Estudiante
+    form_class = EstudianteForm
+    template_name = 'AppEscuela1/estudiante_form.html'
+    success_url = '/estudiantes/'
 
-@login_required(login_url='AppEscuela1:login_usuario')
-def crear_profesor(request):
-    if request.method == 'POST':
-        form = ProfesorForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('AppEscuela1:lista_profesores')
-    else:
-        form = ProfesorForm()
-    return render(request, 'AppEscuela1/profesor_form.html', {'form': form})
+    login_url = 'AppEscuela1:login_usuario'
 
-@login_required(login_url='AppEscuela1:login_usuario')
-def crear_curso(request):
-    if request.method == 'POST':
-        form = CursoForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('AppEscuela1:lista_cursos')
-    else:
-        form = CursoForm()
-    return render(request, 'AppEscuela1/curso_form.html', {'form': form})
+class crear_profesor(LoginRequiredMixin, CreateView):
+    model = Profesor
+    form_class = ProfesorForm
+    template_name = 'AppEscuela1/profesor_form.html'
+    success_url = '/profesores/'
 
-@login_required(login_url='AppEscuela1:login_usuario')
-def crear_entregable(request):
-    if request.method == 'POST':
-        form = EntregableForm(request.POST)
-        if form.is_valid():
-            print("Formulario Valido")
-            form.save()
-            return redirect('AppEscuela1:lista_entregables')
-        else:
-            print(form.errors)
-    else:
-        form = EntregableForm()
-    return render(request, 'AppEscuela1/entregable_form.html', {'form': form})
+    login_url = 'AppEscuela1:login_usuario'
+
+class crear_curso(LoginRequiredMixin, CreateView):
+    model = Curso
+    form_class = CursoForm
+    template_name = 'AppEscuela1/curso_form.html'
+    success_url = '/cursos/'
+
+    login_url = 'AppEscuela1:login_usuario'
+
+class crear_entregable(LoginRequiredMixin, CreateView):
+    model = Entregable
+    form_class = EntregableForm
+    template_name = 'AppEscuela1/entregable_form.html'
+    success_url = '/entregables/'
+
+    login_url = 'AppEscuela1:login_usuario'
 
 # Editar Elementos
 

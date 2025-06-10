@@ -244,6 +244,7 @@
         <a href="{% url 'AppEscuela1:lista_profesores' %}" class="sidebar-link">Profesores</a>
         <a href="{% url 'AppEscuela1:lista_cursos' %}" class="sidebar-link">Cursos</a>
         <a href="{% url 'AppEscuela1:lista_entregables' %}" class="sidebar-link">Entregables</a>
+        <a href="{% url 'AppEscuela1:about' %}" class="sidebar-link">Sobre Mí</a>
         {% if user.is_authenticated %}
         <form method="post" action="{% url 'AppEscuela1:logout_usuario' %}" class="logout-form">
             {% csrf_token %}

@@ -1,0 +1,16 @@
+{% extends 'AppEscuela1/detalle_base.html' %}
+
+{% load static %}
+
+{% block detalle_contenido %}
+
+<h1><strong style="color: #c78df0;">Alvaro Herrera</h1>
+<img src="{% static 'AppEscuela1/img/perfil.jpg' %}" alt="Foto de perfil" style="max-width: 300px; border-radius: 10px;">
+<p>Hola, soy Alvaro Herrera, creador de esta aplicación.</p>
+<p>Tengo 23 años y soy de Las Parejas, Santa Fe.</p>
+<p>Este es mi primer Curso de CoderHouse y mi inicio en el mundo de la Programación, aprendí muchas cosas interesantes en este trayecto, espero que mi primera aplicación les guste.</p>
+{% endblock %}
+
+{% block volver_url %}
+    {% url 'AppEscuela1:index' %}
+{% endblock %}

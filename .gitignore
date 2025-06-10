@@ -173,4 +173,14 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
+# Entorno Virtual
 appescuela/
+
+# Base de Datos
+db.sqlite3
+
+# Archivos de media
+media/
+
+# Archivos Estáticos Recopilados
+staticfiles/
