@@ -123,7 +123,7 @@ class EstudianteForm(forms.ModelForm):
         
     def clean_email(self):
         email = self.cleaned_data['email']
-        if Estudiante.objects.filter(email=email).exists():
+        if Estudiante.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
             raise forms.ValidationError("Ya existe un estudiante con este correo.")
         return email
 
@@ -134,7 +134,7 @@ class ProfesorForm(forms.ModelForm):
     
     def clean_email(self):
         email = self.cleaned_data['email']
-        if Profesor.objects.filter(email=email).exists():
+        if Profesor.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
             raise forms.ValidationError("Ya existe un profesor con este correo.")
         return email
     
@@ -161,8 +161,10 @@ class EntregableForm(forms.ModelForm):
     
     def clean_fecha_entrega(self):
         fecha = self.cleaned_data['fecha_entrega']
-        if fecha < datetime.date.today():
-            raise forms.ValidationError("La fecha de entrega no puede ser en el pasado.")
+        
+        if not self.instance.pk:
+            if fecha < datetime.date.today():
+                raise forms.ValidationError("La fecha de entrega no puede ser en el pasado.")
         return fecha
     
 class AvatarForm(forms.ModelForm):

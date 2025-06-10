@@ -10,6 +10,10 @@
     <p><strong style="color: #c78df0;">Email:</strong> {{ profesor.email }}</p>
     <p><strong style="color: #c78df0;">Fecha de Inscripción:</strong> {{ profesor.fecha_inscripcion }}</p>
 
+    <a href="{% url 'AppEscuela1:editar_profesor' profesor.pk %}" class="btn-editar">Editar Profesor</a>
+
+    <a href="{% url 'AppEscuela1:eliminar_profesor' profesor.id %}" class="btn" style="background-color: #c62828;">Eliminar</a>
+
 {% endblock %}
 
 {% block volver_url %}

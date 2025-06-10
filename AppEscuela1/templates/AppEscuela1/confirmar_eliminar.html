@@ -1,0 +1,16 @@
+{% extends "AppEscuela1/base.html" %}
+
+{% block title %}Confirmar Eliminación{% endblock %}
+
+{% block content %}
+  <div style="text-align: center; padding: 2rem;">
+    <h2>¿Estás seguro de que querés eliminar este elemento?</h2>
+    <p><strong>{{ objeto }}</strong></p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn" style="background-color: #c62828;">Eliminar</button>
+      <a href="javascript:history.back()" class="btn" style="background-color: #6c2586;">Cancelar</a>
+    </form>
+  </div>
+{% endblock %}

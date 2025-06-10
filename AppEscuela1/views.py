@@ -9,6 +9,8 @@ from .forms import EstudianteForm, ProfesorForm, CursoForm, EntregableForm, Logi
 def index(request):
     return render(request, 'AppEscuela1/index.html')
 
+# Creación/Login Usuarios
+
 def login_usuario(request):
     form = LoginForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
@@ -37,6 +39,12 @@ def registro_usuario(request):
         return redirect('login')
     return render(request, 'AppEscuela1/registrar.html', {'form': form})
 
+@login_required
+def perfil(request):
+    return render(request, "AppEscuela1/perfil.html", {"usuario": request.user, "avatar":getattr(request.user, 'avatar', None)})
+
+# Listas y Detalles
+
 def lista_estudiantes(request):
     query = request.GET.get('q')
     if query:
@@ -52,7 +60,6 @@ def lista_estudiantes(request):
         'query': query,
     }
     return render(request, 'AppEscuela1/estudiantes_list.html', contexto)
-
 
 @login_required(login_url='AppEscuela1:login_usuario')
 def detalle_estudiante(request, pk):
@@ -121,6 +128,8 @@ def detalle_entregable(request, pk):
     entregable = get_object_or_404(Entregable, pk=pk)
     return render(request, 'AppEscuela1/entregable_detail.html', {'entregable': entregable})
 
+# Creación de Elementos
+
 @login_required(login_url='AppEscuela1:login_usuario')
 def crear_estudiante(request):
     if request.method == 'POST':
@@ -168,9 +177,7 @@ def crear_entregable(request):
         form = EntregableForm()
     return render(request, 'AppEscuela1/entregable_form.html', {'form': form})
 
-@login_required
-def perfil(request):
-    return render(request, "AppEscuela1/perfil.html", {"usuario": request.user, "avatar":getattr(request.user, 'avatar', None)})
+# Editar Elementos
 
 @login_required
 def editar_perfil(request):
@@ -200,3 +207,85 @@ def editar_perfil(request):
         else:
             avatar_form = AvatarForm()
     return render(request, 'AppEscuela1/editar_perfil.html', {"form": form, "avatar_form": avatar_form})
+
+@login_required
+def editar_estudiante(request, pk):
+    estudiante = get_object_or_404(Estudiante, pk=pk)
+    if request.method == "POST":
+        form = EstudianteForm(request.POST, instance=estudiante)
+        if form.is_valid():
+            form.save()
+            return redirect("AppEscuela1:detalle_estudiante", pk=estudiante.pk)
+    else:
+        form = EstudianteForm(instance=estudiante)
+    return render(request, "AppEscuela1/estudiante_form.html", {"form": form})
+
+@login_required
+def editar_profesor(request, pk):
+    profesor = get_object_or_404(Profesor, pk=pk)
+    if request.method == "POST":
+        form = ProfesorForm(request.POST, instance=profesor)
+        if form.is_valid():
+            form.save()
+            return redirect("AppEscuela1:detalle_profesores", pk=profesor.pk)
+    else:
+        form = ProfesorForm(instance=profesor)
+    return render(request, "AppEscuela1/profesor_form.html", {"form": form})
+
+@login_required
+def editar_curso(request, pk):
+    cursos = get_object_or_404(Curso, pk=pk)
+    if request.method == "POST":
+        form = CursoForm(request.POST, instance=cursos)
+        if form.is_valid():
+            form.save()
+            return redirect("AppEscuela1:detalle_cursos", pk=cursos.pk)
+    else:
+        form = CursoForm(instance=cursos)
+    return render(request, "AppEscuela1/curso_form.html", {"form": form})
+
+@login_required
+def editar_entregable(request, pk):
+    entregable = get_object_or_404(Entregable, pk=pk)
+    if request.method == "POST":
+        form = EntregableForm(request.POST, instance=entregable)
+        if form.is_valid():
+            form.save()
+            return redirect("AppEscuela1:detalle_entregable", pk=entregable.pk)
+    else:
+        form = EntregableForm(instance=entregable)
+    return render(request, "AppEscuela1/entregable_form.html", {"form": form})
+
+# Eliminar Elementos
+
+@login_required
+def eliminar_estudiante(request, pk):
+    estudiante = get_object_or_404(Estudiante, pk=pk)
+    if request.method == "POST":
+        estudiante.delete()
+        return redirect('AppEscuela1:lista_estudiantes') 
+    return render(request, "AppEscuela1/confirmar_eliminar.html", {"objeto": estudiante})
+
+@login_required
+def eliminar_profesor(request, pk):
+    profesor = get_object_or_404(Profesor, pk=pk)
+    if request.method == "POST":
+        profesor.delete()
+        return redirect('AppEscuela1:lista_profesores')
+    return render(request, "AppEscuela1/confirmar_eliminar.html", {"objeto": profesor})
+
+@login_required
+def eliminar_curso(request, pk):
+    curso = get_object_or_404(Curso, pk=pk)
+    if request.method == "POST":
+        curso.delete()
+        return redirect('AppEscuela1:lista_cursos') 
+    return render(request, "AppEscuela1/confirmar_eliminar.html", {"objeto": curso})
+
+@login_required
+def eliminar_entregable(request, pk):
+    entregable = get_object_or_404(Entregable, pk=pk)
+    if request.method == "POST":
+        entregable.delete()
+        return redirect('AppEscuela1:lista_entregables')
+    return render(request, "AppEscuela1/confirmar_eliminar.html", {"objeto": entregable})

@@ -9,6 +9,10 @@
     <p><strong style="color: #c78df0;">Profesor a Cargo:</strong> {{ curso.profesor }}</p>
     <p><strong style="color: #c78df0;">Fecha de Creación:</strong> {{ curso.fecha_creacion }}</p>
 
+    <a href="{% url 'AppEscuela1:editar_curso' curso.pk %}" class="btn-editar">Editar Curso</a>
+
+    <a href="{% url 'AppEscuela1:eliminar_curso' curso.id %}" class="btn" style="background-color: #c62828;">Eliminar</a>
+
 {% endblock %}
 
 {% block volver_url %}

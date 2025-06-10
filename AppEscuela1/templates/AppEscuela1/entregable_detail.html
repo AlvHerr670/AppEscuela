@@ -10,6 +10,11 @@
     <p><strong style="color: #c78df0;">Curso:</strong> {{ entregable.curso }}</p>
     <p><strong style="color: #c78df0;">Descripción:</strong> {{ entregable.descripcion }}</p>
     <p><strong style="color: #c78df0;">Fecha de Entrega:</strong> {{ entregable.fecha_entrega }}</p>
+
+    <a href="{% url 'AppEscuela1:editar_entregable' entregable.pk %}" class="btn-editar">Editar Entregable</a>
+
+    <a href="{% url 'AppEscuela1:eliminar_entregable' entregable.id %}" class="btn" style="background-color: #c62828;">Eliminar</a>
+
 {% endblock %}
 
 {% block volver_url %}
