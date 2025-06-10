@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from .models import Estudiante, Profesor, Curso, Entregable, Avatar
@@ -14,16 +15,8 @@ def index(request):
 def login_usuario(request):
     form = LoginForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
-        user = authenticate(
-            request,
-            username=form.cleaned_data['username'],
-            password=form.cleaned_data['password']
-        )
-        if user is not None:
-            login(request, user)
-            return redirect('AppEscuela1:index')
-        else:
-            form.add_error(None, "Usuario o contraseña incorrectos")
+        login(request, form.user)
+        return redirect('AppEscuela1:index')
     return render(request, 'AppEscuela1/login.html', {'form': form})
 
 @require_POST
@@ -32,12 +25,24 @@ def logout_usuario(request):
         logout(request)
     return redirect('AppEscuela1:index')
 
-def registro_usuario(request):
-    form = RegistroForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        return redirect('login')
-    return render(request, 'AppEscuela1/registrar.html', {'form': form})
+def registrar_usuario(request):
+    if request.method == "POST":
+        form = RegistroForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.email = form.cleaned_data['email']
+            user.save()
+
+            # Crear avatar
+            profesion = form.cleaned_data.get('profesion')
+            imagen = form.cleaned_data.get('avatar')
+            Avatar.objects.create(user=user, profesion=profesion, imagen=imagen)
+
+            login(request, user)
+            return redirect('AppEscuela1:index')
+    else:
+        form = RegistroForm()
+    return render(request, "AppEscuela1/registrar.html", {"form": form})
 
 @login_required
 def perfil(request):

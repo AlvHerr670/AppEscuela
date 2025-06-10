@@ -7,22 +7,30 @@ from .models import Estudiante, Profesor, Curso, Entregable, Avatar
 import datetime
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label='Usuario', max_length=150)
+    email = forms.EmailField(label='Correo electrónico')
     password = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    user = None
 
     def clean(self):
         cleaned_data = super().clean()
-        username = cleaned_data.get("username")
+        email = cleaned_data.get("email", "").lower().strip()
         password = cleaned_data.get("password")
 
-        if username and password:
-            user = authenticate(username=username, password=password)
-            if user is None:
-                raise forms.ValidationError("Usuario o contraseña incorrectos")
+        if email and password:
+            try:
+                user_obj = User.objects.get(email__iexact=email)
+                user = authenticate(username=user_obj.username, password=password)
+                if user is None:
+                    raise forms.ValidationError("Correo o contraseña incorrectos")
+                self.user = user
+            except User.DoesNotExist:
+                raise forms.ValidationError("Correo o contraseña incorrectos")
         return cleaned_data
     
 class RegistroForm(UserCreationForm):
     email = forms.EmailField(required=True, label="Correo electrónico")
+    profesion = forms.CharField(max_length=100, required=False, label="Profesión")
+    avatar = forms.ImageField(required=False, label="Foto de perfil")
 
     password1 = forms.CharField(
         label="Contraseña",
@@ -72,6 +80,7 @@ class RegistroForm(UserCreationForm):
 class EditUserForm(forms.ModelForm):
     username = forms.CharField(required=True, label='Usuario')
     email = forms.EmailField(required=True, label='Correo electrónico')
+    profesion = forms.CharField(label="Profesión", required=False)
     password1 = forms.CharField(label="Contraseña", strip=False, widget=forms.PasswordInput, required=False)
     password2 = forms.CharField(label="Confirmar contraseña", strip=False, widget=forms.PasswordInput, required=False)
 
@@ -80,8 +89,12 @@ class EditUserForm(forms.ModelForm):
         fields = ["username", "email"]
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop("instance", None) 
+        self.user = kwargs.pop("instance", None)
         super().__init__(*args, instance=self.user, **kwargs)
+
+        avatar = Avatar.objects.filter(user=self.user).first()
+        if avatar:
+            self.fields["profesion"].initial = avatar.profesion
 
     def clean_username(self):
         username = self.cleaned_data["username"]
@@ -114,6 +127,12 @@ class EditUserForm(forms.ModelForm):
 
         if commit:
             user.save()
+
+            profesion = self.cleaned_data.get("profesion")
+            avatar, created = Avatar.objects.get_or_create(user=user)
+            avatar.profesion = profesion
+            avatar.save()
+
         return user
 
 class EstudianteForm(forms.ModelForm):
