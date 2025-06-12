@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'AppEscuela1',
+    'mensajeria',
 ]
 
 MIDDLEWARE = [
@@ -121,6 +122,7 @@ STATIC_URL = '/static/'
 # Carpeta donde colocás tus archivos estáticos durante desarrollo
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'AppEscuela1/static'),
+    os.path.join(BASE_DIR, 'mensajeria/static'),
 ]
 
 # Default primary key field type

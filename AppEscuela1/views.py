@@ -41,8 +41,8 @@ def registrar_usuario(request):
 
             # Crear avatar
             profesion = form.cleaned_data.get('profesion')
-            imagen = form.cleaned_data.get('avatar')
-            Avatar.objects.create(user=user, profesion=profesion, imagen=imagen)
+            uploaded_imagen = form.cleaned_data.get('avatar')
+            Avatar.objects.create(user=user, profesion=profesion, imagen=uploaded_imagen)
 
             login(request, user)
             return redirect('AppEscuela1:index')

@@ -1,0 +1,60 @@
+{% extends 'AppEscuela1/base.html' %}
+
+{% block head %}
+    {{ block.super }}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'mensajeria/css/mensajeria.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="mensajeria-container">
+    <h2>{{ page_title }}</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <p style="text-align: center; margin-bottom: 2rem;"><a href="{% url 'compose_message' %}" class="btn">Escribir Nuevo Mensaje</a></p>
+
+    {% if received_messages %}
+        <table class="mensajeria-table">
+            <thead>
+                <tr>
+                    <th>Remitente</th>
+                    <th>Asunto</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for message in received_messages %}
+                <tr>
+                    <td>{{ message.sender.username }}</td>
+                    <td>
+                        <a href="{% url 'view_message' message.id %}">
+                            <span {% if not message.is_read %}class="unread-message"{% endif %}>
+                                {{ message.subject|default:"(Sin Asunto)" }}
+                            </span>
+                        </a>
+                    </td>
+                    <td>{{ message.timestamp|date:"d M, H:i" }}</td>
+                    <td>
+                        {% if message.is_read %}Leído{% else %}<strong class="unread-message">No Leído</strong>{% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'conversation' message.sender.id %}" class="btn">Responder</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="text-align: center;">No tienes mensajes en tu bandeja de entrada.</p>
+    {% endif %}
+</div>
+{% endblock %}

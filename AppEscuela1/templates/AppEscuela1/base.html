@@ -210,11 +210,12 @@
     
     <link rel="stylesheet" href="{% static 'AppEscuela1/css/estilos.css' %}">
 
+    {% block head %}{% endblock %}
+
 </head>
 <body>
     <nav>
         <button onclick="openSidebar()" style="font-size: 24px; background: none; border: none; color: #fff; cursor: pointer; margin-right: 1rem;">☰</button>
-
         <ul>
             {% if not user.is_authenticated %}
             <li><a href="{% url 'AppEscuela1:login_usuario' %}">Iniciar Sesión</a></li>
@@ -222,8 +223,13 @@
             {% endif %}
             {% if user.is_authenticated %}
             <li style="display: flex; align-items: center; gap: 8px;">
-                {% if user.avatar.imagen %}
-                    <img src="{{ user.avatar.imagen.url }}" alt="" class="avatar-mini">
+                {% load static %}
+                
+
+                {% if user.avatar and user.avatar.imagen %} 
+                    <img src="{{ user.avatar.imagen.url }}" alt="Avatar de {{ user.username }}" class="avatar-mini">
+                {% else %}
+                    <img src="{% static 'AppEscuela1/img/avatar_default.png' %}" alt="Avatar por defecto" class="avatar-mini">
                 {% endif %}
                 <a href="{% url 'AppEscuela1:perfil' %}" style="color: #ddd; text-decoration: none;">
                     {{ user.username }}
@@ -245,6 +251,18 @@
         <a href="{% url 'AppEscuela1:lista_cursos' %}" class="sidebar-link">Cursos</a>
         <a href="{% url 'AppEscuela1:lista_entregables' %}" class="sidebar-link">Entregables</a>
         <a href="{% url 'AppEscuela1:about' %}" class="sidebar-link">Sobre Mí</a>
+
+        {% if user.is_authenticated %}
+            <hr style="border-color: #3a3a3a; margin: 15px 0;">
+            {% load mensajeria_tags %}
+            <a href="{% url 'inbox' %}" class="sidebar-link">
+                Bandeja de Entrada
+                {% unread_message_count user %} 
+            </a>
+            <a href="{% url 'compose_message' %}" class="sidebar-link">Escribir Mensaje</a>
+            <hr style="border-color: #3a3a3a; margin: 15px 0;">
+        {% endif %}
+
         {% if user.is_authenticated %}
         <form method="post" action="{% url 'AppEscuela1:logout_usuario' %}" class="logout-form">
             {% csrf_token %}

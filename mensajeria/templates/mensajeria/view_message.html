@@ -1,0 +1,28 @@
+{% extends 'AppEscuela1/base.html' %}
+
+{% block head %}
+    {{ block.super }}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'mensajeria/css/mensajeria.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="mensajeria-container">
+    <h2>{{ page_title }}</h2>
+
+    <div class="message-detail">
+        <p><strong>De:</strong> {{ message.sender.username }}</p>
+        <p><strong>Para:</strong> {{ message.receiver.username }}</p>
+        <p><strong>Asunto:</strong> {{ message.subject|default:"(Sin Asunto)" }}</p>
+        <p><strong>Fecha:</strong> {{ message.timestamp|date:"d M Y, H:i" }}</p>
+        <div class="message-body">
+            {{ message.body|linebreaksbr }}
+        </div>
+    </div>
+
+    <p style="text-align: center; margin-top: 2rem;">
+        <a href="{% url 'compose_to_user' message.sender.username %}" class="btn">Responder</a>
+        <a href="{% url 'inbox' %}" class="btn" style="background-color: #3a3a3a; margin-left: 1rem;">Volver a la Bandeja de Entrada</a>
+    </p>
+</div>
+{% endblock %}

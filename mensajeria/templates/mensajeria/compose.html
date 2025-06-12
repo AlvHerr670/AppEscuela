@@ -1,0 +1,57 @@
+{% extends 'AppEscuela1/base.html' %}
+
+{% block head %}
+    {{ block.super }}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'mensajeria/css/mensajeria.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="mensajeria-container">
+    <h2>{{ page_title }}</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if error %}
+        <p style="color: #ff7373; text-align: center; margin-bottom: 1rem;">¡Error al enviar el mensaje! Por favor, verifica los campos.</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div style="margin-bottom: 1.2rem; text-align: center;">
+            <label for="id_receiver" style="display: block; margin-bottom: 0.4rem; font-weight: bold; color: #e0e0e0;">Destinatario:</label>
+            {% if recipient %}
+                <input type="text" value="{{ recipient.username }}" readonly style="background-color: #2a2a2a; color: #e0e0e0; border: 1px solid #555; border-radius: 6px; padding: 8px; width: 100%; box-sizing: border-box;">
+                <input type="hidden" name="receiver_id" value="{{ recipient.id }}">
+            {% else %}
+                <select id="id_receiver" name="receiver_id" required style="background-color: #2a2a2a; color: #e0e0e0; border: 1px solid #555; border-radius: 6px; padding: 8px; width: 100%; box-sizing: border-box;">
+                    <option value="">--- Selecciona un destinatario ---</option>
+                    {% for user_option in users %}
+                        <option value="{{ user_option.id }}"
+                            {% if user_option.id == selected_receiver_id|add:"0" %}selected{% endif %}>
+                            {{ user_option.username }}
+                        </option>
+                    {% endfor %}
+                </select>
+            {% endif %}
+        </div>
+        <div style="margin-bottom: 1.2rem; text-align: center;">
+            <label for="id_subject" style="display: block; margin-bottom: 0.4rem; font-weight: bold; color: #e0e0e0;">Asunto:</label>
+            <input type="text" id="id_subject" name="subject" maxlength="255" value="{{ subject_value }}" style="background-color: #2a2a2a; color: #e0e0e0; border: 1px solid #555; border-radius: 6px; padding: 8px; width: 100%; box-sizing: border-box;">
+        </div>
+        <div style="margin-bottom: 1.2rem; text-align: center;">
+            <label for="id_body" style="display: block; margin-bottom: 0.4rem; font-weight: bold; color: #e0e0e0;">Mensaje:</label><br>
+            <textarea id="id_body" name="body" rows="10" cols="80" required style="background-color: #2a2a2a; color: #e0e0e0; border: 1px solid #555; border-radius: 6px; padding: 8px; width: 100%; box-sizing: border-box;">{{ body_value }}</textarea>
+        </div>
+        <button type="submit" class="btn" style="margin: 0 auto;">Enviar Mensaje</button> 
+    </form>
+
+    <p style="text-align: center; margin-top: 1.5rem;"><a href="{% url 'inbox' %}" class="btn" style="background-color: #3a3a3a;">Volver a la Bandeja de Entrada</a></p>
+</div>
+{% endblock %}

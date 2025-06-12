@@ -1,0 +1,47 @@
+{% extends 'AppEscuela1/base.html' %}
+
+{% block head %}
+    {{ block.super }}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'mensajeria/css/mensajeria.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="mensajeria-container">
+
+    <h2 style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 2rem;">
+        {% load static %}
+        {% if other_user.avatar and other_user.avatar.imagen %} 
+            <img src="{{ other_user.avatar.imagen.url }}" alt="Avatar de {{ other_user.username }}" class="avatar-conversation">
+        {% else %}
+            <img src="{% static 'AppEscuela1/img/avatar_default.png' %}" alt="Avatar por defecto" class="avatar-conversation">
+        {% endif %}
+        Conversación con {{ other_user.username }}
+    </h2>
+
+    <div class="messages-list">
+        {% for message in messages %}
+            <div class="message-item {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                <p>
+                    <strong>{{ message.sender.username }}</strong>
+                    <small>({{ message.timestamp|date:"d M H:i" }})</small>
+                </p>
+                <p>{{ message.body|linebreaksbr }}</p>
+            </div>
+        {% empty %}
+            <p style="text-align: center;">No hay mensajes en esta conversación.</p>
+        {% endfor %}
+    </div>
+
+    <form method="post" class="conversation-reply-form">
+        {% csrf_token %}
+        <div style="margin-bottom: 1.2rem; text-align: center;">
+            <label for="id_body" style="display: block; margin-bottom: 0.4rem; font-weight: bold; color: #e0e0e0;">Tu mensaje:</label><br>
+            <textarea id="id_body" name="body" rows="4" required style="background-color: #1a1a1a; color: #e0e0e0; border: 1px solid #555; border-radius: 6px; padding: 8px; width: 100%; box-sizing: border-box;"></textarea>
+        </div>
+        <button type="submit" class="btn" style="margin: 0 auto;">Enviar Respuesta</button>
+    </form>
+
+    <p style="text-align: center; margin-top: 20px;"><a href="{% url 'inbox' %}" class="btn" style="background-color: #3a3a3a;">Volver a la Bandeja de Entrada</a></p>
+</div>
+{% endblock %}
