@@ -34,6 +34,9 @@ Acá puede revisar los entregables registrados y buscarlos por nombre, al igual 
 
 Acá puede revisar detalles sobre el creador de la Aplicación.
 
-9) Cerrar Sesión:
+9) Bandeja de Entrada / Mensajes:
+Acá puede revisar los mensajes recibidos y responderlos. En el caso de no tener mensajes, puede escribir uno nuevo a los usuarios de la aplicación.
+
+10) Cerrar Sesión:
 
 Acá puede cerrar la sesión del usuario para salir o entrar con otro usuario registrado.
